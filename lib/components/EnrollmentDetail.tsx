@@ -1,8 +1,7 @@
 import { useStorage } from "@plasmohq/storage"
-import { useEffect, useState } from "react"
-import { formatTime } from "~lib/utils/formatTime"
+import { FiX } from "react-icons/fi"
 
-export const EnrollmentCountdown = () => {
+export const EnrollmentDetail = () => {
   // state
   const [enrollment, , { remove }] = useStorage("enrollment")
 
@@ -24,7 +23,7 @@ export const EnrollmentCountdown = () => {
         <button
           className="btn btn-outline btn-square btn-sm"
           onClick={removeEnrollment}>
-          -
+          <FiX size={20} />
         </button>
       </div>
 

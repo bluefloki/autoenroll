@@ -1,0 +1,81 @@
+import type { ClassTimings } from "~lib/type"
+import { convertTimeToNumber } from "./utils"
+
+export const getCourses = () => {
+  const iframe: HTMLIFrameElement = document.querySelector(`iframe`)
+  const doc = iframe.contentDocument
+  let headings = {
+    cart: null,
+    schedule: null
+  }
+  const classTimings: ClassTimings[] = []
+
+  // first table is shopping cart, second is class schedule
+  const tables: NodeListOf<HTMLTableElement> =
+    doc.querySelectorAll(`table.PSLEVEL1GRID`)
+
+  // Getting valid table headings
+  if (tables.length === 2) {
+    headings = {
+      cart: tables[0].rows[0],
+      schedule: tables[1].rows[0]
+    }
+  } else {
+    if (tables[0].rows[0].cells[0].innerText == "Select") {
+      headings.cart = tables[0].rows[0]
+    } else {
+      headings.schedule = tables[0].rows[0]
+    }
+  }
+
+  const validHeadings = {
+    cart: getValidHeadings(headings.cart.cells),
+    schedule: getValidHeadings(headings.schedule.cells)
+  }
+  if (headings.cart !== null)
+    classTimings.push(...getClassTimings(tables[1], validHeadings.cart))
+
+  if (headings.schedule !== null)
+    classTimings.push(...getClassTimings(tables[1], validHeadings.schedule))
+
+  return classTimings
+}
+
+const getValidHeadings = (input) => {
+  if (input !== null) {
+    const headings = Array.from(input)
+    let validHeadings = []
+    headings.map((el: HTMLTableCellElement, idx) => {
+      if (el.innerText === "Class" || el.innerText === "Days/Times")
+        validHeadings.push(idx)
+    })
+    return validHeadings
+  } else return null
+}
+
+const getClassTimings = (table: HTMLTableElement, headings: number[]) => {
+  const classes = Array.from(table.rows).slice(1)
+  const classDetails = classes.map((el) => {
+    let details: HTMLTableCellElement[] = Array.from(el.cells).filter((el, i) =>
+      headings.includes(i)
+    )
+
+    let [days, ...timings] = details[1].innerText.split(" ")
+
+    return {
+      class: details[0].innerText,
+      schedule: {
+        days:
+          days.length > 2
+            ? [days.substring(0, 2), days.substring(2, 5)]
+            : [days.substring(0, 2)],
+        timings: {
+          start: convertTimeToNumber(timings[0]),
+          end: convertTimeToNumber(timings[2])
+        }
+      }
+    }
+  })
+
+  return classDetails
+}

@@ -1,4 +1,11 @@
 import windowChanger from "./injected-helper"
+import ExtPay from "extpay"
+
+// Init ExtPay.js
+const extpay = ExtPay("autoenroll")
+extpay.startBackground()
+
+// extpay.getUser().then((user) => console.log(user))
 
 const inject = async (tabId) => {
   chrome.scripting.executeScript(

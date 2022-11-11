@@ -19,14 +19,10 @@ const windowChanger = async () => {
     checkboxes.map((el) => (el.checked = true))
     hiddenInputs.map((el) => (el.value = "Y"))
   }
-  const getCourseNames = () =>
-    (courses = Array.from(
-      document.querySelectorAll(`span[id^="P_CLASS_NAME"]`)
-    ))
 
+  // Do stuff on the shopping cart page
   if (heading == "Shopping Cart") {
     selectCourses()
-    getCourseNames()
 
     // get finish enrollment button
     let finishEnrollButton: HTMLInputElement = doc.querySelector(
