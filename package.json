@@ -1,9 +1,9 @@
 {
   "name": "autoenroll",
   "displayName": "Autoenroll",
-  "version": "0.0.0",
-  "description": "A basic Plasmo extension.",
-  "author": "apple",
+  "version": "3.0",
+  "description": "Automated College Course Registration",
+  "author": "roimagnus",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build"
@@ -40,8 +40,7 @@
     ],
     "permissions": [
       "activeTab",
-      "scripting",
-      "tabs"
+      "scripting"
     ]
   }
 }

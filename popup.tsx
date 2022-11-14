@@ -43,7 +43,7 @@ function IndexPopup() {
             <button
               className="btn mt-4 btn-primary"
               onClick={() => {
-                const newURL = "http://localhost:5173#how-it-works"
+                const newURL = "https://autoenroll.co/#how-it-works"
                 chrome.tabs.create({ url: newURL })
               }}>
               Guide
